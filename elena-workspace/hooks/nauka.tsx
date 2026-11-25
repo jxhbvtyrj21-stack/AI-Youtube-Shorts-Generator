@@ -3,7 +3,7 @@ import type { CommandRunResult, On } from 'claude-code'
 
 import type { Robota } from '../types'
 import {
-  DOZVOLENI, basename, normPath, rosiiskiPosylannia, rosiiskyiDomen, khost,
+  DOZVOLENI, basename, frontmatter, normPath, rosiiskiPosylannia, rosiiskyiDomen, khost,
   vidnosnoSkhovyshcha, yamlNotatkyClaude, zvedennia,
 } from './lib/perevirky'
 import type { $, Cfg, DocxVysnovok, Rishennia } from './spilne'
@@ -86,7 +86,7 @@ export async function perevirStvorennia($: $, rel: string, path: string, content
   if (rel === '' || segs.some(s => s.toLowerCase() === '.obsidian')) return { deny: KB('зміни в .obsidian/ заборонено', rel) }
   const exists = await isnuie($, path)
   if (exists === undefined) return { warn: KB('не вдалося перевірити, чи файл новий, наявні нотатки не змінюй', rel) }
-  if (exists) return { deny: KB('нотатка вже існує, змінювати наявні нотатки заборонено', rel) }
+  if (exists) return (await zminaProiektuClaude($, rel, path, content)) ?? { deny: KB('нотатка вже існує, змінювати наявні нотатки заборонено', rel) }
   const top = (segs[0] ?? '').normalize('NFC').toLowerCase()
   if (segs.length < 2 || !DOZVOLENI.some(d => d.toLowerCase() === top)) {
     return { deny: KB('нові нотатки дозволено лише в 00_Вхідні, 50_Проєкти і 70_YouTube', rel) }
@@ -95,6 +95,42 @@ export async function perevirStvorennia($: $, rel: string, path: string, content
   const yaml = yamlNotatkyClaude(content)
   if (yaml !== undefined) return { deny: KB(`у новій нотатці ${yaml}`, rel) }
   return {}
+}
+
+// Єдиний виняток: нотатки в 50_Проєкти, які створив Claude (created_by: Claude у YAML).
+// Зміна дозволена, лише якщо created_by і verification лишаються такими, як були.
+// Повертає undefined, коли виняток не стосується файлу: тоді діє загальна заборона.
+export async function zminaProiektuClaude($: $, rel: string, path: string, novyi: string): Promise<Rishennia | undefined> {
+  const segs = rel.split('/')
+  if (segs.length < 2 || (segs[0] ?? '').normalize('NFC').toLowerCase() !== '50_проєкти') return undefined
+  if (segs.some(s => s.toLowerCase() === '.obsidian') || !/\.md$/i.test(rel)) return undefined
+  const staryi = await chytaty($, path)
+  if (staryi === undefined) return undefined
+  const bulo = frontmatter(staryi)
+  if (bulo === undefined || bulo['created_by'] !== 'Claude') return undefined
+  const stalo = frontmatter(novyi)
+  if (stalo === undefined || stalo['created_by'] !== 'Claude') {
+    return { deny: KB('у нотатці проєкту Claude має лишитися created_by: Claude', rel) }
+  }
+  if ((stalo['verification'] ?? '') !== (bulo['verification'] ?? '')) {
+    return { deny: KB('поле verification змінює лише користувачка', rel) }
+  }
+  return {}
+}
+
+function pisliaRedahuvannia(staryi: string, input: Input): string | undefined {
+  const odna = (text: string, e: Input): string | undefined => {
+    const from = str(e['old_string'])
+    const to = str(e['new_string'])
+    if (from === undefined || to === undefined || from === '' || !text.includes(from)) return undefined
+    return e['replace_all'] === true ? text.split(from).join(to) : text.replace(from, () => to)
+  }
+  if (Array.isArray(input['edits'])) {
+    let text: string | undefined = staryi
+    for (const e of input['edits']) text = text === undefined || typeof e !== 'object' || e === null ? undefined : odna(text, e as Input)
+    return text
+  }
+  return odna(staryi, input)
 }
 
 function shliakhyPisliaPerenapravlennia(cmd: string): string[] {
@@ -119,8 +155,15 @@ export async function ocinkaKB($: $, cfg: Cfg, tool: string, input: Input): Prom
     return perevirStvorennia($, r, path, str(input['content']) ?? '')
   }
   if (tool === 'Edit' || tool === 'MultiEdit' || tool === 'NotebookEdit') {
-    const r = rel(str(input['file_path']) ?? str(input['notebook_path']))
-    return r === undefined ? {} : { deny: KB('редагувати наявні нотатки заборонено', r) }
+    const path = str(input['file_path']) ?? str(input['notebook_path'])
+    const r = rel(path)
+    if (r === undefined || path === undefined) return {}
+    const zaborona = { deny: KB('редагувати наявні нотатки заборонено', r) }
+    if (tool === 'NotebookEdit') return zaborona
+    const staryi = await chytaty($, path)
+    const novyi = staryi === undefined ? undefined : pisliaRedahuvannia(staryi, input)
+    if (novyi === undefined) return zaborona
+    return (await zminaProiektuClaude($, r, path, novyi)) ?? zaborona
   }
   if (tool === 'Bash' || tool === 'PowerShell') {
     const cmd = str(input['command']) ?? ''

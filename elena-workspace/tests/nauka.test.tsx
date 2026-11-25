@@ -239,3 +239,32 @@ test('Вимкнений «Захист бази знань» нічого не 
   const r = await $.tool.call({ tool: 'Edit', file_path: '/t/skhovyshche/10_Джерела/Іваненко 2020 — Тривожність.md', old_string: 'Текст', new_string: 'Інше' })
   expect(r.deny).toBeUndefined()
 })
+
+// ---------- А2. Виняток: нотатки проєктів, створені Claude ----------
+
+const PROIEKT_CLAUDE = '/t/skhovyshche/50_Проєкти/2026 Стаття — Тривожність/Проєкт.md'
+const PROIEKT_OLENY = '/t/skhovyshche/50_Проєкти/2025 Курсова — Мотивація/Проєкт.md'
+
+test('А2 пропускає: зміна нотатки в 50_Проєкти з created_by: Claude', { options: OPTIONS }, async ($, on) => {
+  stend(on, FIXTURES)
+  await $.session.start(START)
+  const edit = await $.tool.call({ tool: 'Edit', file_path: PROIEKT_CLAUDE, old_string: 'Розділ 1.', new_string: 'Розділ 1. Розділ 2.' })
+  expect(edit.deny).toBeUndefined()
+  const write = await $.tool.call({ tool: 'Write', file_path: PROIEKT_CLAUDE, content: '---\ntitle: Тривожність студентів\ncreated_by: Claude\nverification: не перевірено\n---\n## Структура\nОновлено.\n' })
+  expect(write.deny).toBeUndefined()
+})
+
+test('А2 ловить: проєкт користувачки, зміна created_by чи verification, нотатка Claude поза 50_Проєкти', { options: OPTIONS }, async ($, on) => {
+  stend(on, FIXTURES)
+  await $.session.start(START)
+  const oleny = await $.tool.call({ tool: 'Edit', file_path: PROIEKT_OLENY, old_string: 'Розділ 1.', new_string: 'Розділ 2.' })
+  expect(oleny.deny).toContain('редагувати наявні нотатки заборонено')
+  const avtor = await $.tool.call({ tool: 'Edit', file_path: PROIEKT_CLAUDE, old_string: 'created_by: Claude', new_string: 'created_by: Олена' })
+  expect(avtor.deny).toContain('має лишитися created_by: Claude')
+  const perevirka = await $.tool.call({ tool: 'Edit', file_path: PROIEKT_CLAUDE, old_string: 'verification: не перевірено', new_string: 'verification: перевірено користувачкою' })
+  expect(perevirka.deny).toContain('verification змінює лише користувачка')
+  const youtube = await $.tool.call({ tool: 'Edit', file_path: '/t/skhovyshche/70_YouTube/Відео/Як читати статті.md', old_string: 'status: ідея', new_string: 'status: сценарій' })
+  expect(youtube.deny).toContain('редагувати наявні нотатки заборонено')
+  const rm = await $.tool.call({ tool: 'Bash', command: `rm "${PROIEKT_CLAUDE}"` })
+  expect(rm.deny).toContain('видаляти, переміщувати чи перейменовувати')
+})

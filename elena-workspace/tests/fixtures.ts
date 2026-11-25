@@ -209,123 +209,149 @@ export const FIXTURES: Fixture[] = [
   "mtimeMs": 1700000014000
  },
  {
-  "path": "/t/skhovyshche/70_YouTube",
+  "path": "/t/skhovyshche/50_Проєкти/2025 Курсова — Мотивація",
   "kind": "dir",
   "size": 0,
   "mtimeMs": 1700000014000
+ },
+ {
+  "path": "/t/skhovyshche/50_Проєкти/2025 Курсова — Мотивація/Проєкт.md",
+  "kind": "file",
+  "size": 157,
+  "mtimeMs": 1700000015000,
+  "text": "---\ntitle: Мотивація\ncreated_by: Олена\nverification: перевірено користувачкою\n---\n## Структура\nРозділ 1.\n"
+ },
+ {
+  "path": "/t/skhovyshche/50_Проєкти/2026 Стаття — Тривожність",
+  "kind": "dir",
+  "size": 0,
+  "mtimeMs": 1700000015000
+ },
+ {
+  "path": "/t/skhovyshche/50_Проєкти/2026 Стаття — Тривожність/Проєкт.md",
+  "kind": "file",
+  "size": 154,
+  "mtimeMs": 1700000016000,
+  "text": "---\ntitle: Тривожність студентів\ncreated_by: Claude\nverification: не перевірено\n---\n## Структура\nРозділ 1.\n"
+ },
+ {
+  "path": "/t/skhovyshche/70_YouTube",
+  "kind": "dir",
+  "size": 0,
+  "mtimeMs": 1700000016000
  },
  {
   "path": "/t/skhovyshche/70_YouTube/00_Стратегія каналу",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000014000
+  "mtimeMs": 1700000016000
  },
  {
   "path": "/t/skhovyshche/70_YouTube/00_Стратегія каналу/Стратегія каналу.md",
   "kind": "file",
   "size": 133,
-  "mtimeMs": 1700000015000,
+  "mtimeMs": 1700000017000,
   "text": "# Стратегія\nКанали: Психологія просто, Наука вголос.\nАудиторія: студенти.\n"
  },
  {
   "path": "/t/skhovyshche/70_YouTube/40_Аналітика",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000015000
+  "mtimeMs": 1700000017000
  },
  {
   "path": "/t/skhovyshche/70_YouTube/40_Аналітика/Що працює.md",
   "kind": "file",
   "size": 65,
-  "mtimeMs": 1700000016000,
+  "mtimeMs": 1700000018000,
   "text": "# Що працює\nКороткі хуки з питанням.\n"
  },
  {
   "path": "/t/skhovyshche/70_YouTube/Відео",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000016000
+  "mtimeMs": 1700000018000
  },
  {
   "path": "/t/skhovyshche/70_YouTube/Відео/Сон і пам'ять.md",
   "kind": "file",
   "size": 189,
-  "mtimeMs": 1700000017000,
+  "mtimeMs": 1700000019000,
   "text": "---\ntitle: Сон і пам'ять\nchannel: Психологія просто\nstatus: сценарій\nctr:\nretention:\nviews:\ncreated_by: Claude\nverification: не перевірено\n---\n"
  },
  {
   "path": "/t/skhovyshche/70_YouTube/Відео/Тривога перед іспитом.md",
   "kind": "file",
   "size": 242,
-  "mtimeMs": 1700000018000,
+  "mtimeMs": 1700000020000,
   "text": "---\ntitle: Тривога перед іспитом\nchannel: Психологія просто\nstatus: опубліковано\nctr: 6,1\nretention: 42\nviews: 1800\ncreated_by: Claude\nverification: не перевірено\n---\nНотатки.\n"
  },
  {
   "path": "/t/skhovyshche/70_YouTube/Відео/Як читати статті.md",
   "kind": "file",
   "size": 155,
-  "mtimeMs": 1700000019000,
+  "mtimeMs": 1700000021000,
   "text": "---\ntitle: Як читати статті\nchannel: Наука вголос\nstatus: ідея\ncreated_by: Claude\nverification: не перевірено\n---\n"
  },
  {
   "path": "/t/skhovyshche/80_Мапи",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/90_Службове",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/90_Службове/Шаблони",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/90_Службове/Шаблони/YouTube",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/95_PDF",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/95_PDF/Інше",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/95_PDF/Дисертації",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/95_PDF/Монографії",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/95_PDF/Статті",
   "kind": "dir",
   "size": 0,
-  "mtimeMs": 1700000019000
+  "mtimeMs": 1700000021000
  },
  {
   "path": "/t/skhovyshche/CLAUDE.md",
   "kind": "file",
   "size": 98,
-  "mtimeMs": 1700000020000,
+  "mtimeMs": 1700000022000,
   "text": "# Правила сховища\nАгенти лише створюють нові нотатки.\n"
  }
 ]
