@@ -1,0 +1,92 @@
+{
+  "name": "elena-workspace",
+  "version": "0.1.0",
+  "description": "Робочий простір: запобіжники наукових робіт і YouTube, панелі, рядок стану, теми",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "nauka_vydacha": {
+      "type": "boolean",
+      "title": "Наука: перевірка перед видачею .docx",
+      "description": "Хук «Перед видачею файлу»",
+      "default": true
+    },
+    "nauka_zaglushky_blok": {
+      "type": "boolean",
+      "title": "Наука: блокувати видачу через «[уточнити]»",
+      "description": "Вимкнено: заглушки лише попереджають, бо конвеєр лишає їх, коли даних немає",
+      "default": false
+    },
+    "nauka_kb": {
+      "type": "boolean",
+      "title": "Наука: захист бази знань",
+      "description": "Хук «Захист бази знань»",
+      "default": true
+    },
+    "nauka_dzherela": {
+      "type": "boolean",
+      "title": "Наука: фільтр джерел",
+      "description": "Хук «Фільтр джерел»",
+      "default": true
+    },
+    "nauka_panel": {
+      "type": "boolean",
+      "title": "Наука: панель, рядок стану, сповіщення",
+      "description": "Панель «Хід роботи», рядок стану і сповіщення",
+      "default": true
+    },
+    "nauka_komandy": {
+      "type": "boolean",
+      "title": "Наука: slash-команди",
+      "description": "Команди наукового конвеєра",
+      "default": true
+    },
+    "youtube_komandy": {
+      "type": "boolean",
+      "title": "YouTube: slash-команди",
+      "description": "Команди YouTube",
+      "default": true
+    },
+    "youtube_panel": {
+      "type": "boolean",
+      "title": "YouTube: панель «Канали» і рядок стану",
+      "description": "Панель каналів",
+      "default": true
+    },
+    "youtube_zakhyst": {
+      "type": "boolean",
+      "title": "YouTube: захист метрик і транскриптів",
+      "description": "Хук YouTube",
+      "default": true
+    },
+    "vyhliad_temy": {
+      "type": "boolean",
+      "title": "Вигляд: теми і типографіка",
+      "description": "Світла і темна теми",
+      "default": true
+    },
+    "vyhliad_baner": {
+      "type": "boolean",
+      "title": "Вигляд: банер режиму",
+      "description": "Банер «Наука» / «YouTube»",
+      "default": true
+    },
+    "vault_path": {
+      "type": "string",
+      "title": "Шлях до сховища Obsidian",
+      "description": "Корінь бази знань",
+      "default": "G:\\Мій диск\\MY_KNOWLEDGE_SYSTEM\\01_OBSIDIAN\\Knowledge_Base\\Knowledge_Base"
+    },
+    "kanaly": {
+      "type": "string",
+      "title": "Канали YouTube",
+      "description": "Назви каналів через кому",
+      "default": ""
+    },
+    "chasovyi_poias": {
+      "type": "string",
+      "title": "Часовий пояс",
+      "description": "Для перемикання світлої і темної тем",
+      "default": "Europe/Kyiv"
+    }
+  }
+}
